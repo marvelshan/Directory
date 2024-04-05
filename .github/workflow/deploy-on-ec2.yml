@@ -3,7 +3,7 @@ name: Deploy to EC2 after merge
 on:
   push:
     branches:
-      - main
+      - develop
 
 jobs:
   build-and-deploy:
