@@ -24,6 +24,7 @@ jobs:
 
       - name: Change to directory containing docker-compose.yml
         run: cd directory/
+          ls
 
       - name: Build and push Docker image
         run: |
