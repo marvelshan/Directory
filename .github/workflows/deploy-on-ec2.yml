@@ -39,4 +39,6 @@ jobs:
           username: '${{ secrets.EC2_USERNAME }}'
           key: ${{ secrets.EC2_SSH_KEY }}
           envs: BRANCH
-          script: docker compose up -d
+          script: |
+            echo "Hello from github action, start deploy ${BRANCH} to ec2"
+            docker compose up -d
