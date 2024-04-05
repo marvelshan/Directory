@@ -26,4 +26,4 @@ jobs:
         run: |
           cd directory/
           docker-compose build
-          docker-compose push
+          docker-compose push zakilu/directory
