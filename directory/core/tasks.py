@@ -13,7 +13,7 @@ def send_contact_list_email(contact_data):
     send_mail(
         "Contact List",
         email_body,
-        "from@example.com",
-        ["to@example.com"],
+        "reborn7875@gmail.com",
+        ["reborn7875@gmail.com"],
         fail_silently=False,
     )
