@@ -23,7 +23,7 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
       - name: Change to directory containing docker-compose.yml
-        run: cd /directory
+        run: ls
 
       - name: Build and push Docker image
         run: |
