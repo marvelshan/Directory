@@ -6,7 +6,7 @@ on:
       - develop
 
 jobs:
-  build-and-deploy:
+  build-and-upload-on-docker-hub:
     runs-on: ubuntu-latest
 
     steps:
@@ -30,8 +30,12 @@ jobs:
           docker tag directory_web:latest zakilu/directory-web:latest
           docker push zakilu/directory-web:latest
 
+  deploy-on-ec2:
+    runs-on: ubuntu-latest
+
+    steps:
       - name: deploy to ec2
-        uses: appleboy/ssh-action@master
+        uses: appleboy/ssh-action@v1.0.3
         env:
           BRANCH: ${{ github.head_ref }}
         with:
