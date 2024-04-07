@@ -55,7 +55,8 @@ class ContactDetail(APIView):
     def delete(self, request, pk):
         contact = self.get_object(pk)
         contact.soft_delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        serializer = ContactSerializer(contact)
+        return Response(serializer.data, status=status.HTTP_204_NO_CONTENT)
 
 
 class SearchContact(APIView):
