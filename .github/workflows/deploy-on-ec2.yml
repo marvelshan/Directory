@@ -24,7 +24,7 @@ jobs:
           pip install -r directory/requirements.txt
 
       - name: Run tests
-        run: python3 manage.py test
+        run: python3 directory/manage.py test
 
   build-and-upload-on-docker-hub:
     runs-on: ubuntu-latest
