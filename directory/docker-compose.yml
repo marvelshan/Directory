@@ -1,9 +1,9 @@
 version: '3.9'
 services:
-  localhost:
+  dev-db:
     image: postgres:13
     ports:
-      - 5432:5432
+      - 5434:5432
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: 1234
@@ -16,7 +16,7 @@ services:
       - "8000:8000"
     depends_on:
       - redis
-      - localhost
+      - dev-db
 
   redis:
     image: redis:latest

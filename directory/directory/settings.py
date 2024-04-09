@@ -85,7 +85,7 @@ DATABASES = {
         'NAME': 'Django',
         'USER': 'postgres',
         'PASSWORD': '1234',
-        'HOST': 'localhost',
+        'HOST': 'dev-db',
         'PORT': '5432',
     }
 }
