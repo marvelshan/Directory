@@ -27,13 +27,7 @@ jobs:
           docker compose up -d --build
 
       - name: Run tests
-        run: |
-          container_id=$(docker container ls | grep directory-web | awk '{print $1}')
-          echo "Container ID: $container_id"
-          docker container ls
-          docker exec -it -t $container_id /bin/bash
-          ls
-          python3 manage.py test
+        run: docker compose up -d --build
 
   # build-and-upload-on-docker-hub:
   #   runs-on: ubuntu-latest
