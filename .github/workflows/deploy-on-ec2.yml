@@ -29,7 +29,7 @@ jobs:
       - name: Run tests
         run: |
           docker container ls
-          docker exec -it web /bin/bash
+          docker exec -it directory-web /bin/bash
           ls
           python3 manage.py test
 
