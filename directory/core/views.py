@@ -1,14 +1,13 @@
 from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework import status
-from django.shortcuts import get_object_or_404
 from .models import Contact
 from .serializers import ContactSerializer, UpdateContactSerializer
 from .tasks import send_contact_list_email
 
 
 class ContactList(viewsets.ModelViewSet):
-    queryset = Contact.objects.all(is_deleted=False)
+    queryset = Contact.objects.all()
     serializer_class = ContactSerializer
 
     def get(self, request):
@@ -25,7 +24,7 @@ class ContactList(viewsets.ModelViewSet):
 
 
 class ContactDetail(viewsets.ModelViewSet):
-    queryset = Contact.objects.all(is_deleted=False)
+    queryset = Contact.objects.all()
     serializer_class = ContactSerializer
     update_serializer_class = UpdateContactSerializer
 
@@ -68,7 +67,6 @@ class ContactDetail(viewsets.ModelViewSet):
 
 
 class SearchContact(viewsets.ModelViewSet):
-    queryset = Contact.objects.all(is_deleted=False)
     serializer_class = ContactSerializer
 
     def get(self, request):
@@ -85,11 +83,13 @@ class SearchContact(viewsets.ModelViewSet):
 
 
 class ExportContacts(viewsets.ModelViewSet):
-    queryset = Contact.objects.all(is_deleted=False)
     serializer_class = ContactSerializer
 
+    def get_queryset(self):
+        return Contact.objects.filter(is_deleted=False)
+
     def get(self, request):
-        contacts = Contact.objects.filter(is_deleted=False)
+        contacts = self.get_queryset()
         serializer = self.serializer_class(contacts, many=True)
 
         # Sending email using Celery task
