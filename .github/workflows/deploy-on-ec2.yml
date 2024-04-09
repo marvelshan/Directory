@@ -29,6 +29,7 @@ jobs:
       - name: Build docker container for testing
         run: |
           cd directory/
+          ls
           docker compose up -d build
 
       - name: Run tests
