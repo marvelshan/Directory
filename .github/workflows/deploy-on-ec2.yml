@@ -34,7 +34,6 @@ jobs:
       - name: Run tests
         run: |
           cd directory/
-          ls
           python3 manage.py test
 
   # build-and-upload-on-docker-hub:
