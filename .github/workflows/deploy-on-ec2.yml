@@ -21,11 +21,6 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Install dependencies
-        run: |
-          python3 -m pip install --upgrade pip
-          pip install -r directory/requirements.txt
-
       - name: Build docker container for testing
         run: |
           cd directory/
@@ -33,6 +28,7 @@ jobs:
 
       - name: Run tests
         run: |
+          docker container ls
           docker exec -it web /bin/bash
           ls
           python3 manage.py test
