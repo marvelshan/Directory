@@ -1,26 +1,34 @@
-from rest_framework.views import APIView
+from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework import status
+from django.shortcuts import get_object_or_404
 from .models import Contact
 from .serializers import ContactSerializer, UpdateContactSerializer
 from .tasks import send_contact_list_email
 
 
-class ContactList(APIView):
+class ContactList(viewsets.ModelViewSet):
+    queryset = Contact.objects.all(is_deleted=False)
+    serializer_class = ContactSerializer
+
     def get(self, request):
         contacts = Contact.objects.filter(is_deleted=False)
-        serializer = ContactSerializer(contacts, many=True)
+        serializer = self.serializer_class(contacts, many=True)
         return Response(serializer.data)
 
     def post(self, request):
-        serializer = ContactSerializer(data=request.data)
+        serializer = self.serializer_class(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class ContactDetail(APIView):
+class ContactDetail(viewsets.ModelViewSet):
+    queryset = Contact.objects.all(is_deleted=False)
+    serializer_class = ContactSerializer
+    update_serializer_class = UpdateContactSerializer
+
     def get_object(self, pk):
         try:
             return Contact.objects.get(pk=pk)
@@ -29,12 +37,12 @@ class ContactDetail(APIView):
 
     def get(self, request, pk):
         contact = self.get_object(pk)
-        serializer = ContactSerializer(contact)
+        serializer = self.serializer_class(contact)
         return Response(serializer.data)
 
     def put(self, request, pk):
         contact = self.get_object(pk)
-        serializer = UpdateContactSerializer(
+        serializer = self.update_serializer_class(
             contact, data=request.data, partial=False
         )
         if serializer.is_valid():
@@ -44,7 +52,7 @@ class ContactDetail(APIView):
 
     def patch(self, request, pk):
         contact = self.get_object(pk)
-        serializer = UpdateContactSerializer(
+        serializer = self.update_serializer_class(
             contact, data=request.data, partial=True
         )
         if serializer.is_valid():
@@ -55,11 +63,14 @@ class ContactDetail(APIView):
     def delete(self, request, pk):
         contact = self.get_object(pk)
         contact.soft_delete()
-        serializer = ContactSerializer(contact)
+        serializer = self.serializer_class(contact)
         return Response(serializer.data, status=status.HTTP_204_NO_CONTENT)
 
 
-class SearchContact(APIView):
+class SearchContact(viewsets.ModelViewSet):
+    queryset = Contact.objects.all(is_deleted=False)
+    serializer_class = ContactSerializer
+
     def get(self, request):
         name = request.query_params.get("name")
         phone_number = request.query_params.get("phone_number")
@@ -69,14 +80,17 @@ class SearchContact(APIView):
             name__icontains=name,
             phone_number__icontains=phone_number,
         )
-        serializer = ContactSerializer(contacts, many=True)
+        serializer = self.serializer_class(contacts, many=True)
         return Response(serializer.data)
 
 
-class ExportContacts(APIView):
+class ExportContacts(viewsets.ModelViewSet):
+    queryset = Contact.objects.all(is_deleted=False)
+    serializer_class = ContactSerializer
+
     def get(self, request):
         contacts = Contact.objects.filter(is_deleted=False)
-        serializer = ContactSerializer(contacts, many=True)
+        serializer = self.serializer_class(contacts, many=True)
 
         # Sending email using Celery task
         send_contact_list_email.delay(serializer.data)
