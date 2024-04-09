@@ -32,7 +32,9 @@ jobs:
           docker compose up -d --build
 
       - name: Run tests
-        run: python3 directory/manage.py test
+        run: |
+          ls
+          python3 directory/manage.py test
 
   build-and-upload-on-docker-hub:
     runs-on: ubuntu-latest
