@@ -27,7 +27,9 @@ jobs:
           pip install -r directory/requirements.txt
 
       - name: Build docker container for testing
-        run: docker compose up -d build
+        run: |
+          cd directory/
+          docker compose up -d build
 
       - name: Run tests
         run: python3 directory/manage.py test
