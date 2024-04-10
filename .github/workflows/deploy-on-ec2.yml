@@ -40,7 +40,9 @@ jobs:
 
       - name: Switch to develop branch
         if: success()
-        run: git checkout develop
+        run: |
+          git fetch
+          git checkout develop
 
   build-and-upload-on-docker-hub:
     if: github.ref == 'refs/heads/develop'
