@@ -25,7 +25,6 @@ jobs:
         run: |
           cd directory/
           docker-compose build
-          docker image ls
           docker tag directory_web:latest zakilu/directory-web:latest
           docker push zakilu/directory-web:latest
 
