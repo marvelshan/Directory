@@ -38,6 +38,10 @@ jobs:
           cd directory/
           python3 manage.py test
 
+      - name: Switch to develop branch
+        if: success()
+        run: git checkout develop
+
   build-and-upload-on-docker-hub:
     if: github.ref == 'refs/heads/develop'
     runs-on: ubuntu-latest
