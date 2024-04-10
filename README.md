@@ -4,19 +4,19 @@ This is a simple Django application for managing contacts. It provides APIs for 
 
 ## API Endpoints
 
-**List Contacts:** GET api/v1/directory/contacts/
+**List Contacts:** GET api/v1/directory
 
-**Create Contact:** POST api/v1/directory/contacts/
+**Create Contact:** POST api/v1/directory
 
-**Retrieve Contact:** GET api/v1/directory/contacts/<id>/
+**Retrieve Contact:** GET api/v1/directory/id
 
-**Update Contact:** PUT api/v1/directory/contacts/<id>/ or PATCH api/v1/directory/contacts/<id>/
+**Update Contact:** PUT api/v1/directory/id/ or PATCH api/v1/directory/id
 
-**Delete Contact:** DELETE api/v1/directory/contacts/<id>/
+**Delete Contact:** DELETE api/v1/directory/id
 
 **Search Contacts:** GET api/v1/directory/search/?name=<name>&phone_number=<phone_number>
 
-**Export Contacts:** GET api/v1/directory/export/
+**Export Contacts:** GET api/v1/directory/export
 
 ## Build the project by docker image
 
