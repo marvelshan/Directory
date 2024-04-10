@@ -38,16 +38,11 @@ jobs:
           cd directory/
           python3 manage.py test
 
-      - name: Switch to develop branch
-        if: success()
-        run: |
-          git fetch
-          git checkout develop
-
-  build-and-upload-on-docker-hub:
+  build-upload-and-deploy-on-ec2:
     if: github.ref == 'refs/heads/develop'
     runs-on: ubuntu-latest
     needs: test
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -69,11 +64,6 @@ jobs:
           docker tag directory_web:latest zakilu/directory-web:latest
           docker push zakilu/directory-web:latest
 
-  deploy-on-ec2:
-    if: github.ref == 'refs/heads/develop'
-    runs-on: ubuntu-latest
-    needs: build-and-upload-on-docker-hub
-    steps:
       - name: deploy to ec2
         uses: appleboy/ssh-action@v1.0.3
         env:
